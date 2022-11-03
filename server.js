@@ -14,6 +14,12 @@ var rollbar = new Rollbar({
   captureUnhandledRejections: true,
 })
 
+// rollbar.critical()
+// rollbar.info()
+// rollbar.warning()
+// rollbar.error()
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'))
 })
@@ -29,6 +35,39 @@ app.post('/api/students', (req, res) => {
    const index = students.findIndex(student => {
        return student === name
    })
+
+   try {
+    function notAFunction () {
+        return('nothing')
+    }
+   } catch {
+    rollbar.critical('caught backend failure')
+   };
+
+   try {
+    function notAFunction () {
+        return('nothing')
+    }
+   } catch {
+    rollbar.warning('')
+   };
+
+   try {
+    function notAFunction () {
+        return('nothing')
+    }
+   } catch {
+    rollbar.info('caught backend failure')
+   };
+
+   try {
+    function notAFunction () {
+        return('nothing')
+    }
+   } catch {
+    rollbar.error('caught backend failure')
+   };
+
 
    try {
        if (index === -1 && name !== '') {
